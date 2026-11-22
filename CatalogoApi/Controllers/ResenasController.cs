@@ -65,4 +65,18 @@ public class ResenasController : ControllerBase
 
         return CreatedAtAction(nameof(GetById), new { id = resena.Id }, resena);
     }
+
+    // Endpoint duplicado intencionalmente para la PR de práctica (Etapa 4)
+    [HttpPost]
+    public async Task<IActionResult> CreateDuplicado([FromBody] Resena resena)
+    {
+        resena.Activo = true;
+        resena.CreadoEn = DateTime.UtcNow;
+        resena.EliminadoEn = null;
+
+        _context.Resenas.Add(resena);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetById), new { id = resena.Id }, resena);
+    }
 }
